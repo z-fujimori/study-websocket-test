@@ -1,0 +1,21 @@
+[package]
+name = "study-websocket-test"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "websocket-chat-server"
+path = "src/main.rs"
+
+[dependencies]
+actix.workspace = true
+actix-files.workspace = true
+actix-web.workspace = true
+actix-web-actors.workspace = true
+awc.workspace = true
+
+env_logger.workspace = true
+futures-util = { workspace = true, features = ["sink"] }
+log.workspace = true
+tokio = { workspace = true, features = ["full"] }
+tokio-stream.workspace = true
