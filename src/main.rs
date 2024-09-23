@@ -15,7 +15,6 @@ pub fn echo(payload: &[u8]) -> Vec<u8> {
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7778").unwrap();
     let mut buffer = [0; 4096];
-
     for stream in listener.incoming() {
         let mut stream = stream.unwrap();
         let mut is_websocket = false;
@@ -68,7 +67,8 @@ fn main() {
                     }
 
                     let values = line.split(":").map(|s| s.trim()).collect::<Vec<&str>>();
-                    let key = values[0].to_ascii_lowercase();
+                    // let key = values[0].to_ascii_lowercase();
+                    let key = "sec-websocket-key";
                     let value = values[1];
                     if key == "upgrade" {
                         upgrade = Some(value);
@@ -118,14 +118,16 @@ pub enum Opcode {
 
 impl From<u8> for Opcode {
     fn from(byte: u8) -> Self {
-        match byte & 0x0F {
+        println!("{}",byte);
+        let mut dumy = 65;
+        match dumy & 0x0F {
             0x0 => Opcode::Continuation,
             0x1 => Opcode::Text,
             0x2 => Opcode::Binary,
             0x8 => Opcode::Close,
             0x9 => Opcode::Ping,
             0xA => Opcode::Pong,
-            _ => panic!("Invalid opcode"),
+            _ => panic!("Invalid opcode"), // Err() で　Resultを返す方が適切
         }
     }
 }
